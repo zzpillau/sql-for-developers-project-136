@@ -1,0 +1,50 @@
+CREATE TABLE courses (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP
+);
+
+CREATE TABLE lessons (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  course_id BIGINT REFERENCES courses (id) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content TEXT,
+  video_url VARCHAR(255),
+  position SMALLINT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP
+);
+
+CREATE TABLE modules (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP
+);
+
+CREATE TABLE programs (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(10,2),
+  program_type VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE course_modules (
+  course_id BIGINT REFERENCES courses (id),
+  module_id BIGINT REFERENCES modules (id),
+  PRIMARY KEY (module_id, course_id)
+);
+
+CREATE TABLE program_modules (
+  program_id BIGINT REFERENCES programs (id),
+  module_id BIGINT NOT NULL REFERENCES modules (id),
+  PRIMARY KEY (program_id, module_id)
+);
