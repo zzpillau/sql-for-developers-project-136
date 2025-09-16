@@ -48,3 +48,23 @@ CREATE TABLE program_modules (
   module_id BIGINT NOT NULL REFERENCES modules (id),
   PRIMARY KEY (program_id, module_id)
 );
+
+CREATE TABLE teaching_groups (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  slug VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password_hash VARCHAR(255),
+  role VARCHAR(10) CHECK (role IN ('student', 'teacher', 'admin')) NOT NULL,
+  teaching_group_id BIGINT REFERENCES teaching_groups (id) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP
+);
+
