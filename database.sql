@@ -68,3 +68,43 @@ CREATE TABLE users (
   deleted_at TIMESTAMP
 );
 
+CREATE TABLE enrollments (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id BIGINT REFERENCES users (id) NOT NULL,
+  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  status enrollment_status NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE payments (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  enrollment_id BIGINT REFERENCES enrollments (id) NOT NULL,
+  amount DECIMAL(10,2),
+  status payment_status NOT NULL,
+  paid_at DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE program_completions (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id BIGINT REFERENCES users (id) NOT NULL,
+  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  status completion_status NOT NULL,
+  started_at DATE,
+  completed_at DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE certificates (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id BIGINT REFERENCES users (id) NOT NULL,
+  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  url VARCHAR(255),
+  issued_at DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
