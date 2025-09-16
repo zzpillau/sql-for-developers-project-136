@@ -66,7 +66,7 @@ CREATE TABLE users (
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password_hash VARCHAR(255),
-  role VARCHAR(10) CHECK (role IN ('student', 'teacher', 'admin')) NOT NULL,
+  role VARCHAR(10) CHECK (role IN ('Student', 'Teacher', 'Admin')) NOT NULL,
   teaching_group_id BIGINT REFERENCES teaching_groups (id) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -117,7 +117,7 @@ CREATE TABLE quizzes (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   lesson_id BIGINT REFERENCES lessons (id) NOT NULL,
   title VARCHAR(255),
-  content jsonb,
+  content JSONB,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -135,7 +135,7 @@ CREATE TABLE discussions (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   lesson_id BIGINT REFERENCES lessons (id) NOT NULL,
   user_id BIGINT REFERENCES users (id) NOT NULL,
-  TEXT jsonb,
+  text JSONB,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
