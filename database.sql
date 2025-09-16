@@ -77,7 +77,7 @@ CREATE TABLE enrollments (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id BIGINT REFERENCES users (id) NOT NULL,
   program_id BIGINT REFERENCES programs (id) NOT NULL,
-  status enrollment_status NOT NULL,
+  status VARCHAR(10) CHECK (status IN ('active', 'pending', 'cancelled', 'completed')) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -86,7 +86,7 @@ CREATE TABLE payments (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   enrollment_id BIGINT REFERENCES enrollments (id) NOT NULL,
   amount DECIMAL(10,2),
-  status payment_status NOT NULL,
+  status VARCHAR(10) CHECK (status IN ('pending', 'paid', 'failed', 'refunded')) NOT NULL,
   paid_at DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -96,7 +96,7 @@ CREATE TABLE program_completions (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id BIGINT REFERENCES users (id) NOT NULL,
   program_id BIGINT REFERENCES programs (id) NOT NULL,
-  status completion_status NOT NULL,
+  status VARCHAR(20) CHECK (status IN ('active', 'completed', 'pending', 'cancelled')) NOT NULL,
   started_at DATE,
   completed_at DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -145,7 +145,7 @@ CREATE TABLE blogs (
   user_id BIGINT REFERENCES users (id) NOT NULL,
   title VARCHAR(255) NOT NULL,
   content TEXT,
-  status article_status NOT NULL,
+  status VARCHAR(20) CHECK (status IN ('created', 'in moderation', 'published', 'archived')) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
