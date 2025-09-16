@@ -1,8 +1,3 @@
-CREATE TYPE enrollment_status AS ENUM ('active', 'pending', 'cancelled', 'completed');
-CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed', 'refunded');
-CREATE TYPE completion_status AS ENUM ('active', 'completed', 'pending', 'cancelled');
-CREATE TYPE article_status AS ENUM ('created', 'in moderation', 'published', 'archived');
-
 CREATE TABLE courses (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR(255) NOT NULL,
