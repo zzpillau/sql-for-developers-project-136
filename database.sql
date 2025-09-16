@@ -9,7 +9,7 @@ CREATE TABLE courses (
 
 CREATE TABLE lessons (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  course_id BIGINT REFERENCES courses (id) NOT NULL,
+  course_id BIGINT REFERENCES courses (id) ON DELETE SET NULL,
   name VARCHAR(255) NOT NULL,
   content TEXT,
   video_url VARCHAR(255),
@@ -62,7 +62,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   password_hash VARCHAR(255),
   role VARCHAR(10) CHECK (role IN ('Student', 'Teacher', 'Admin')) NOT NULL,
-  teaching_group_id BIGINT REFERENCES teaching_groups (id) NOT NULL,
+  teaching_group_id BIGINT REFERENCES teaching_groups (id) ON DELETE SET NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP
@@ -70,8 +70,8 @@ CREATE TABLE users (
 
 CREATE TABLE enrollments (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  user_id BIGINT REFERENCES users (id) NOT NULL,
-  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
+  program_id BIGINT REFERENCES programs (id) ON DELETE SET NULL,
   status VARCHAR(10) CHECK (status IN ('active', 'pending', 'cancelled', 'completed')) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -79,7 +79,7 @@ CREATE TABLE enrollments (
 
 CREATE TABLE payments (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  enrollment_id BIGINT REFERENCES enrollments (id) NOT NULL,
+  enrollment_id BIGINT REFERENCES enrollments (id) ON DELETE SET NULL,
   amount DECIMAL(10,2),
   status VARCHAR(10) CHECK (status IN ('pending', 'paid', 'failed', 'refunded')) NOT NULL,
   paid_at DATE,
@@ -89,8 +89,8 @@ CREATE TABLE payments (
 
 CREATE TABLE program_completions (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  user_id BIGINT REFERENCES users (id) NOT NULL,
-  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
+  program_id BIGINT REFERENCES programs (id) ON DELETE SET NULL,
   status VARCHAR(20) CHECK (status IN ('active', 'completed', 'pending', 'cancelled')) NOT NULL,
   started_at DATE,
   completed_at DATE,
@@ -100,8 +100,8 @@ CREATE TABLE program_completions (
 
 CREATE TABLE certificates (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  user_id BIGINT REFERENCES users (id) NOT NULL,
-  program_id BIGINT REFERENCES programs (id) NOT NULL,
+  user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
+  program_id BIGINT REFERENCES programs (id) ON DELETE SET NULL
   url VARCHAR(255),
   issued_at DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -110,7 +110,7 @@ CREATE TABLE certificates (
 
 CREATE TABLE quizzes (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  lesson_id BIGINT REFERENCES lessons (id) NOT NULL,
+  lesson_id BIGINT REFERENCES lessons (id) ON DELETE SET NULL,
   name VARCHAR(255),
   content JSONB,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -119,7 +119,7 @@ CREATE TABLE quizzes (
 
 CREATE TABLE exercises (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  lesson_id BIGINT REFERENCES lessons (id) NOT NULL,
+  lesson_id BIGINT REFERENCES lessons (id) ON DELETE SET NULL,
   name VARCHAR(255),
   url VARCHAR(512),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -128,8 +128,8 @@ CREATE TABLE exercises (
 
 CREATE TABLE discussions (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  lesson_id BIGINT REFERENCES lessons (id) NOT NULL,
-  user_id BIGINT REFERENCES users (id) NOT NULL,
+  lesson_id BIGINT REFERENCES lessons (id) ON DELETE SET NULL,
+  user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
   text JSONB,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -137,7 +137,7 @@ CREATE TABLE discussions (
 
 CREATE TABLE blogs (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  user_id BIGINT REFERENCES users (id) NOT NULL,
+  user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
   name VARCHAR(255) NOT NULL,
   content TEXT,
   status VARCHAR(20) CHECK (status IN ('created', 'in moderation', 'published', 'archived')) NOT NULL,
