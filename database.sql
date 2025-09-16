@@ -101,7 +101,7 @@ CREATE TABLE program_completions (
 CREATE TABLE certificates (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id BIGINT REFERENCES users (id) ON DELETE SET NULL,
-  program_id BIGINT REFERENCES programs (id) ON DELETE SET NULL
+  program_id BIGINT REFERENCES programs (id) ON DELETE SET NULL,
   url VARCHAR(255),
   issued_at DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
