@@ -138,7 +138,7 @@ CREATE TABLE discussions (
 CREATE TABLE blogs (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id BIGINT REFERENCES users (id) NOT NULL,
-  title VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   content TEXT,
   status VARCHAR(20) CHECK (status IN ('created', 'in moderation', 'published', 'archived')) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
